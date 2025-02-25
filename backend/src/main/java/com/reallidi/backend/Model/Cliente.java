@@ -30,7 +30,7 @@ public class Cliente {
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
-    private Data data_cadastro;
+    private LocalDateTime data_cadastro;
 
     @Column(nullable = false)
     private String endereco;
