@@ -11,6 +11,6 @@ import java.util.Optional;
 public class CarrinhoService {
 
     @Autowired
-    private CarrinhoRepository CarrinhoRepository;
+    private CarrinhoRepository carrinhoRepository;
 
 }
