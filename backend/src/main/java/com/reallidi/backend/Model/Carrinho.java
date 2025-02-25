@@ -33,4 +33,7 @@ public class Carrinho {
     @Column(nullable = false)
     private LocalDateTime dataAtualizacao;
 
+    @OneToOne
+    @JoinColumn(name = "id_cliente", nullable = false, unique = true)
+    private Cliente cliente;
 }
