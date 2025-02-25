@@ -33,6 +33,6 @@ public class Carrinho {
     @JoinColumn(name = "id_cliente", nullable = false, unique = true)
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL)
     private List<ProdutoCarrinho> produtoCarrinhos;
 }
