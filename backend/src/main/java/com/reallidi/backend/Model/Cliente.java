@@ -1,14 +1,14 @@
 package com.reallidi.backend.Model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
-@Inheritance(strategy = InheritanceType.JOINED)
+@Data
 @Table(name = "cliente")
 public class Cliente {
 
@@ -28,7 +28,8 @@ public class Cliente {
     @Column(nullable = false)
     private String telefone;
 
-    @Column(nullable = false)
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
     private Data data_cadastro;
 
     @Column(nullable = false)
