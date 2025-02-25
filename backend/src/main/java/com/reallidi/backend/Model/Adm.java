@@ -13,7 +13,7 @@ public class Administrador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id_adm;
 
     @Column(nullable = false, unique = true)
     private String email;
