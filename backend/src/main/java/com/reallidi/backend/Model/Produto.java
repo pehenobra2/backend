@@ -41,4 +41,7 @@ public class Produto {
     @Column(nullable = false)
     private LocalDateTime data_atualizacao;
 
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
+    private List<ProdutoCarrinho> produtoCarrinhos;
+
 }
