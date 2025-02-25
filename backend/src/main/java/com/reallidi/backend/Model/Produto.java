@@ -2,13 +2,11 @@ package com.reallidi.backend.Model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Getter
-@Setter
-@Inheritance(strategy = InheritanceType.JOINED)
+@Data
 @Table(name = "produto")
 public class Produto {
 
@@ -19,7 +17,7 @@ public class Produto {
     @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private String descricao;
 
     @Column(nullable = false)
@@ -34,10 +32,12 @@ public class Produto {
     @Column(nullable = false)
     private Integer ativo;
 
-    @Column(nullable = false)
-    private Data data_criacao;
+    @CreationTimestamp
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime data_criacao;
 
+    @UpdateTimestamp
     @Column(nullable = false)
-    private Data data_atualizacao;
+    private LocalDateTime data_atualizacao;
 
 }
