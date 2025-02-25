@@ -18,10 +18,6 @@ public class Carrinho {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_carrinho;
 
-    @ManyToOne
-    @JoinColumn(name = "id_cliente", nullable = false)
-    private Cliente cliente;
-
     @Column(nullable = false)
     private BigDecimal valorTotal = BigDecimal.ZERO;
 
@@ -36,4 +32,7 @@ public class Carrinho {
     @OneToOne
     @JoinColumn(name = "id_cliente", nullable = false, unique = true)
     private Cliente cliente;
+
+    @OneToMany(mappedBy = "carrinho", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProdutoCarrinho> produtoCarrinhos;
 }
