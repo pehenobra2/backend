@@ -35,7 +35,7 @@ public class Cliente {
     @Column(nullable = false)
     private String endereco;
 
-    @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "cliente")
     private Carrinho carrinho;
 
 }
