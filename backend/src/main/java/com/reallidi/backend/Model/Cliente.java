@@ -1,11 +1,10 @@
 package com.reallidi.backend.Model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+
 
 @Entity
 @Data

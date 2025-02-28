@@ -1,4 +1,4 @@
-package com.reallidi.backend.model;
+package com.reallidi.backend.Model;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
-@Table(name = "administrador")
-public class Administrador {
+@Table(name = "adm")
+public class Adm {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,7 +1,7 @@
-package com.reallidi.backend.service;
+package com.reallidi.backend.Service;
 
-import com.reallidi.backend.model.Adm;
-import com.reallidi.backend.repository.ClienteRepository;
+import com.reallidi.backend.Model.Adm;
+import com.reallidi.backend.Repository.AdmRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

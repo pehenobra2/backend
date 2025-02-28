@@ -1,7 +1,7 @@
-package com.reallidi.backend.controller;
+package com.reallidi.backend.Controller;
 
-import com.reallidi.backend.model.Adm;
-import com.reallidi.backend.service.AdmService;
+import com.reallidi.backend.Model.Adm;
+import com.reallidi.backend.Service.AdmService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

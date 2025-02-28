@@ -1,10 +1,19 @@
-package com.reallidi.backend.controller;
+package com.reallidi.backend.Controller;
 
-import com.reallidi.backend.model.Produto;
-import com.reallidi.backend.service.ProdutoService;
+import com.reallidi.backend.DTO.Produto.CadastroProdutoDTO;
+import com.reallidi.backend.DTO.Produto.ProdutoDTO;
+import com.reallidi.backend.DTO.Produto.ProdutoDTOLista;
+import com.reallidi.backend.Model.Produto;
+import com.reallidi.backend.Repository.ProdutoRepository;
+import com.reallidi.backend.Service.ProdutoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/produtos")
@@ -13,38 +22,24 @@ public class ProdutoController {
     @Autowired
     private ProdutoService produtoService;
 
-    // Endpoint para buscar todos os produtos
-    @GetMapping
-    public List<Produto> buscarTodosProdutos() {
-        return produtoService.buscarTodosProdutos();
-    }
-
-    // Endpoint para buscar um produto por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Produto> buscarProdutoPorId(@PathVariable Long id) {
-        Produto produto = produtoService.buscarProdutoPorId(id);
-        return produto != null ? ResponseEntity.ok(produto) : ResponseEntity.notFound().build();
-    }
-
-    // Endpoint para salvar um novo produto
     @PostMapping
-    public ResponseEntity<Produto> salvarProduto(@RequestBody Produto produto) {
-        Produto savedProduto = produtoService.salvarProduto(produto);
-        return ResponseEntity.ok(savedProduto);
+    @Transactional
+    public ResponseEntity<String> cadastroProduto(@RequestBody @Valid CadastroProdutoDTO produtoDTO){
+        Produto produto = produtoService.cadastroProduto(produtoDTO);
+        return new ResponseEntity<>("Produto cadastrado com sucesso!", HttpStatus.CREATED);
     }
 
-    // Endpoint para atualizar um produto
-    @PutMapping("/{id}")
-    public ResponseEntity<Produto> atualizarProduto(@PathVariable Long id, @RequestBody Produto produto) {
-        produto.setId_produto(id);
-        Produto updatedProduto = produtoService.atualizarProduto(produto);
-        return ResponseEntity.ok(updatedProduto);
+    @GetMapping
+    public ResponseEntity<List<ProdutoDTOLista>> getAllProdutos(){
+        List<ProdutoDTOLista> produtos = produtoService.getAllProdutos();
+        return new ResponseEntity<>(produtos, HttpStatus.OK);
     }
 
-    // Endpoint para excluir um produto
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluirProduto(@PathVariable Long id) {
-        produtoService.excluirProduto(id);
-        return ResponseEntity.noContent().build();
+    @GetMapping("/{id}")
+    public ResponseEntity<ProdutoDTO> getOneProduto(@PathVariable Long id){
+        ProdutoDTO produto = produtoService.getOneProduto(id);
+        return new ResponseEntity<>(produto, HttpStatus.OK);
     }
+
+
 }

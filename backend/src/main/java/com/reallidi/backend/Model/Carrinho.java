@@ -1,4 +1,4 @@
-package com.reallidi.backend.model;
+package com.reallidi.backend.Model;
 
 import jakarta.persistence.*;
 import lombok.Data;

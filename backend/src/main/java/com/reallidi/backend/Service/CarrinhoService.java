@@ -1,7 +1,7 @@
-package com.reallidi.backend.service;
+package com.reallidi.backend.Service;
 
-import com.reallidi.backend.model.Carrinho;
-import com.reallidi.backend.repository.ClienteRepository;
+import com.reallidi.backend.Model.Carrinho;
+import com.reallidi.backend.Repository.CarrinhoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

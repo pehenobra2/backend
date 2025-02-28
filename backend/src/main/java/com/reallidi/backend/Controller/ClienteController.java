@@ -1,52 +1,35 @@
-package com.reallidi.backend.controller;
+package com.reallidi.backend.Controller;
 
-import com.reallidi.backend.model.Cliente;
-import com.reallidi.backend.service.ClienteService;
+import com.reallidi.backend.DTO.Cliente.CadastroClienteDTO;
+import com.reallidi.backend.DTO.Cliente.ClienteDTOLista;
+import com.reallidi.backend.Model.Cliente;
+import com.reallidi.backend.Service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("clientes")
 public class ClienteController {
 
     @Autowired
     private ClienteService clienteService;
 
-    // Endpoint para buscar todos os clientes
-    @GetMapping
-    public List<Cliente> buscarTodosClientes() {
-        return clienteService.buscarTodosClientes();
-    }
-
-    // Endpoint para buscar cliente por ID
-    @GetMapping("/{id}")
-    public ResponseEntity<Cliente> buscarClientePorId(@PathVariable Long id) {
-        Cliente cliente = clienteService.buscarClientePorId(id);
-        return cliente != null ? ResponseEntity.ok(cliente) : ResponseEntity.notFound().build();
-    }
-
-    // Endpoint para salvar um novo cliente
     @PostMapping
-    public ResponseEntity<Cliente> salvarCliente(@RequestBody Cliente cliente) {
-        Cliente savedCliente = clienteService.salvarCliente(cliente);
-        return ResponseEntity.ok(savedCliente);
+    @Transactional
+    public ResponseEntity<String> cadastroCliente(@RequestBody @Valid CadastroClienteDTO clienteDTO){
+        Cliente cliente = clienteService.cadastroCliente(clienteDTO);
+        return new ResponseEntity<>("Cliente cadastrado com sucesso!", HttpStatus.CREATED);
     }
 
-    // Endpoint para atualizar um cliente
-    @PutMapping("/{id}")
-    public ResponseEntity<Cliente> atualizarCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
-        cliente.setId_cliente(id);
-        Cliente updatedCliente = clienteService.atualizarCliente(cliente);
-        return ResponseEntity.ok(updatedCliente);
-    }
-
-    // Endpoint para excluir um cliente
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluirCliente(@PathVariable Long id) {
-        clienteService.excluirCliente(id);
-        return ResponseEntity.noContent().build();
+    @GetMapping
+    public ResponseEntity<List<ClienteDTOLista>> getAllClientes(){
+        List<ClienteDTOLista> clientes = clienteService.getAllClientes();
+        return new ResponseEntity<>(clientes, HttpStatus.OK);
     }
 }
