@@ -1,6 +1,6 @@
 package com.reallidi.backend.Model;
 
-import com.reallidi.backend.Model.Enum.Categorias;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.reallidi.backend.Model.Enum.SaborOuCor;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -23,9 +23,6 @@ public class Produto {
     @Column(nullable = false)
     private String nome;
 
-    @Column(nullable = false)
-    private String marca;
-
     @Column(nullable = false, length = 1000)
     private String descricao;
 
@@ -45,8 +42,7 @@ public class Produto {
     @Column(nullable = false)
     private Integer ativo;
 
-    @Column(nullable = false)
-    private List<Categorias> categoria;
+
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
@@ -58,5 +54,21 @@ public class Produto {
 
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
     private List<ProdutoCarrinho> produtoCarrinhos;
+
+    @ManyToOne
+    @JoinColumn(name = "marca_id", nullable = false)
+    @JsonBackReference
+    private Marcas marca;
+
+    @ManyToMany
+    @JoinTable(
+            name = "produto_categoria",
+            joinColumns = @JoinColumn(name = "produto_id"),
+            inverseJoinColumns = @JoinColumn(name = "categoria_id")
+    )
+    @JsonBackReference
+    private List<Categorias> categoria;
+
+
 
 }

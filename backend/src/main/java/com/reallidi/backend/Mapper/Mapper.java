@@ -1,7 +1,9 @@
 package com.reallidi.backend.Mapper;
 
+import com.reallidi.backend.DTO.Categorias.CadastroCategoriaDTO;
 import com.reallidi.backend.DTO.Cliente.CadastroClienteDTO;
 import com.reallidi.backend.DTO.Cliente.ClienteDTOLista;
+import com.reallidi.backend.DTO.Marca.CadastroMarcaDTO;
 import com.reallidi.backend.DTO.Produto.CadastroProdutoDTO;
 import com.reallidi.backend.DTO.Produto.ProdutoDTO;
 import com.reallidi.backend.DTO.Produto.ProdutoDTOLista;
@@ -75,7 +77,9 @@ public class Mapper {
                 produto.getId_produto(),
                 produto.getNome(),
                 produto.getImagem(),
-                produto.getPreco()
+                produto.getPreco(),
+                produto.getMarca(),
+                produto.getCategoria()
         );
     }
 
@@ -101,6 +105,35 @@ public class Mapper {
         produto.setSaborCor(produtoDTO.sabor_cor());
 
         return produto;
+    }
+
+
+    public static CadastroMarcaDTO toMarcaDTO(Marcas marca){
+        return new CadastroMarcaDTO(
+                marca.getNome()
+        );
+    }
+
+    public static Marcas toMarcaEntity(CadastroMarcaDTO marcaDTO){
+        Marcas marca = new Marcas();
+
+        marca.setNome(marcaDTO.nome());
+
+        return marca;
+    }
+
+    public static CadastroCategoriaDTO toCategoriaDTO(Categorias categorias){
+        return new CadastroCategoriaDTO(
+                categorias.getNome()
+        );
+    }
+
+    public static Categorias toCategoriaEntity(CadastroCategoriaDTO categoriaDTO){
+        Categorias categorias = new Categorias();
+
+        categorias.setNome(categoriaDTO.nome());
+
+        return categorias;
     }
 
 }
