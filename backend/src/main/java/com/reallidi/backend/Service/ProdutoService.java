@@ -14,7 +14,10 @@ import com.reallidi.backend.Repository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,9 +34,9 @@ public class ProdutoService {
 
     public Produto cadastroProduto(CadastroProdutoDTO produtoDTO) {
         // Verificar se a marca já existe no banco
-        Marcas marcaExistente = marcasRepository.findByNome(produtoDTO.marca().getNome());
+        Optional<Marcas> marcaExistente = marcasRepository.findByNome(produtoDTO.marca().getNome());
 
-        if (marcaExistente == null) {
+        if (!marcaExistente.isPresent()) {  // Verifica se a marca não foi encontrada
             throw new RuntimeException("A marca '" + produtoDTO.marca().getNome() + "' não está cadastrada.");
         }
 
@@ -52,12 +55,13 @@ public class ProdutoService {
         SaborOuCor saborOuCor = produtoDTO.saborOuCor();
 
         Produto produto = Mapper.toProdutoEntity(produtoDTO);
-        produto.setMarca(marcaExistente);
+        produto.setMarca(marcaExistente.get());  // Extrai a marca do Optional
         produto.setSaborOuCor(saborOuCor);
         produto.setCategoria(categoriasExistentes); // Agora só usa categorias que já existem
 
         return produtoRepository.save(produto);
     }
+
 
 
 
@@ -72,5 +76,44 @@ public class ProdutoService {
         Produto produto = produtoRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
         return Mapper.toProdutoUnicoDTO(produto);
+    }
+
+
+    public Optional<Produto> attProduto(CadastroProdutoDTO attProdutoDTO){
+
+        Produto produtoConvertido = Mapper.toProdutoEntity(attProdutoDTO);
+        Optional<Produto> produtoExiste = produtoRepository.findByNome(attProdutoDTO.nome());
+
+        if(produtoExiste.isPresent()){
+            Produto produto = produtoExiste.get();
+
+            produto.setNome(produtoConvertido.getNome());
+
+            Marcas marca = marcasRepository.findByNome(attProdutoDTO.marca().getNome())
+                    .orElseThrow(() -> new RuntimeException("Marca não encontrada: " + attProdutoDTO.marca().getNome()));
+
+            produto.setMarca(marca);
+
+
+            produto.setDescricao(produtoConvertido.getDescricao());
+            produto.setImagem(produtoConvertido.getImagem());
+            produto.setPreco(produtoConvertido.getPreco());
+            produto.setSaborOuCor(produtoConvertido.getSaborOuCor());
+            produto.setSaborCor(produtoConvertido.getSaborCor());
+            Set<Categorias> categorias = attProdutoDTO.categoria()
+                    .stream()
+                    .map(c -> categoriasRepository.findByNome(c.getNome())
+                            .orElseThrow(() -> new RuntimeException("Categoria não encontrada: " + c.getNome())))
+                    .collect(Collectors.toSet());
+
+            produto.setCategoria(new ArrayList<>(categorias));
+
+            produto.setAtivo(produto.getAtivo());
+
+            produtoRepository.save(produto);
+            return Optional.of(produto);
+        }else {
+            return Optional.empty();
+        }
     }
 }

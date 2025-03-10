@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CategoriasRepository extends JpaRepository<Categorias, Long> {
@@ -13,5 +14,7 @@ public interface CategoriasRepository extends JpaRepository<Categorias, Long> {
     List<Categorias> findAllByOrderByNomeAsc();
 
     List<Categorias> findAllByNomeIn(List<String> nomes);
+
+    Optional<Categorias> findByNome(String nome);
 
 }

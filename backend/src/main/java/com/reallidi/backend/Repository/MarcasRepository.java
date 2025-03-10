@@ -6,11 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MarcasRepository extends JpaRepository<Marcas, Long> {
 
     List<Marcas> findAllByOrderByNomeAsc();
 
-    Marcas findByNome(String nome);
+    Optional<Marcas> findByNome(String nome);
 }

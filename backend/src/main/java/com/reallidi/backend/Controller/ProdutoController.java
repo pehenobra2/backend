@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/catalogo")
@@ -39,6 +40,17 @@ public class ProdutoController {
     public ResponseEntity<ProdutoDTO> getOneProduto(@PathVariable Long id){
         ProdutoDTO produto = produtoService.getOneProduto(id);
         return new ResponseEntity<>(produto, HttpStatus.OK);
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity<String> atualizacaoProduto(@RequestBody CadastroProdutoDTO attProdutoDTO){
+        Optional<Produto> produto = produtoService.attProduto(attProdutoDTO);
+        if(produto.isPresent()){
+            return new ResponseEntity<>("Produto atualizado com sucesso!", HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("Produto não encontrado!", HttpStatus.NOT_FOUND);
+        }
     }
 
 
