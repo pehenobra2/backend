@@ -85,6 +85,7 @@ public class Mapper {
 
     public static ProdutoDTO toProdutoUnicoDTO(Produto produto){
         return new ProdutoDTO(
+                produto.getId_produto(),
                 produto.getNome(),
                 produto.getMarca(),
                 produto.getDescricao(),

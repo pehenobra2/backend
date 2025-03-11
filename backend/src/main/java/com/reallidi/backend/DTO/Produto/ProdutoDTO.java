@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public record ProdutoDTO(
+        Long id,
         String nome,
         Marcas marca,
         String descricao,
